@@ -194,7 +194,10 @@ def fetch_repo_metrics(g: Github, repo_name: str) -> dict:
 def main():
     auth = Auth.Token(GITHUB_TOKEN)
     g = Github(auth=auth, retry=3)
-    producer = get_kafka_producer()
+
+    for _ in range(5):
+        producer = get_kafka_producer()
+        time.sleep(5)
 
     # 1. Récupération des dépôts déjà suivis en base
     tracked_repos = get_tracked_repos_from_db()
